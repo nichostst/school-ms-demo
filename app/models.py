@@ -7,6 +7,7 @@ from flask_login import UserMixin
 from sqlalchemy import (
     Column,
     Integer,
+    Numeric,
     Text,
     String,
     Boolean,
@@ -64,3 +65,39 @@ class UserRole(Base):
     user_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
     role_id = Column(Integer, ForeignKey("roles.role_id"), primary_key=True)
     assigned_at = Column(DateTime, nullable=False, server_default=F.now())
+
+class Module(Base):
+    __tablename__ = 'modules'
+    module_id = Column(Integer, primary_key=True)
+    name = Column(Text, nullable=False)
+
+class ModuleCoordinator(Base):
+    __tablename__ = 'modules_coordinators'
+    coordinator_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
+    module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
+    assigned_at = Column(DateTime, nullable=False, server_default=F.now())
+
+class ModuleLecturer(Base):
+    __tablename__ = 'modules_lecturers'
+    coordinator_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
+    module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
+    assigned_at = Column(DateTime, nullable=False, server_default=F.now())
+
+class ModuleStudents(Base):
+    __tablename__ = 'modules_students'
+    coordinator_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
+    module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
+    term_id = Column(Integer, ForeignKey("terms.term_id"), nullable=False)
+    grade = Column(Numeric)
+    assigned_at = Column(DateTime, nullable=False, server_default=F.now())
+
+class ModuleGradeStructure(Base):
+    __tablename__ = 'module_grade_structure'
+    module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
+    structure_type = Column(Text, nullable=False)
+    weightage = Column(Numeric, nullable=False)
+
+class Term(Base):
+    __tablename__ = 'terms'
+    term_id = Column(Integer, primary_key=True)
+    name = Column(Text, nullable=False)
