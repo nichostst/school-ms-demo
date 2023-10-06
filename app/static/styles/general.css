@@ -1,3 +1,26 @@
+body {
+    font-size: 1.8rem;
+    line-height: 1.618;
+    max-width: 38em;
+    margin: auto;
+    color: #4a4a4a;
+    background-color: #f9f9f9;
+    padding: 13px;
+}
+
+label {
+    font-size: 11px;
+    font-style: italic;
+    font-weight: lighter;
+    margin-bottom: 0px;
+}
+
+select {
+    display: block;
+    width: inherit;
+    font-size: 10pt;
+}
+
 .topnav {
     background-color: rgb(230, 230, 230);
     overflow: hidden;
@@ -43,19 +66,8 @@ a.a_button:hover, input.input_submit:hover {
     color: rgb(230, 230, 230);
 }
 
-.admin_card {
-    background-color: rgb(240, 240, 240);
-    border-radius: 10pt;
-    padding: 10pt;
-}
-
-.admin_card_title {
-    margin-top: 10pt;
-}
-
-label {
-    font-size: 10px;
-    font-style: italic;
-    font-weight: lighter;
-    margin-bottom: 0px;
+.input-field.col label {
+    position: inherit;
+    font-size: 8pt;
+    left: 0;
 }

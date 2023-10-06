@@ -2,28 +2,64 @@
 
 {% block styles %}
   {% include "styling/table.html" %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin.css') }}">
 {% endblock %}
 
 {% block content %}
   {% include "components/topnav.html" %}
 
-  <h1>
+  <h2>
     Admin
-  </h1>
+  </h2>
 
-  <div id="user_view" class="admin_card">
-    <h3 class="admin_card_title">Users</h3>
+  <!-- Tabs -->
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s3"><a class="active" href="#user_view_tab">User View</a></li>
+        <li class="tab col s3"><a href="#check">Check</a></li>
+      </ul>
+    </div>
 
-    {{ user_table|safe }}
+    <!-- User view -->
+    <div id="user_view_tab" class="col s12">
+      <div id="user_view" class="admin_card">
+        <h3 class="admin_card_title">Users</h3>
 
-    <script>
-      $(document).ready(function () {
-        $('#user-table').DataTable();
-      });
-    </script>
+        {{ user_table|safe }}
 
-    <a href="/admin/new_user" class="a_button">Create new user</a>
+        <script>
+          $(document).ready(function () {
+            $('#user-table').DataTable();
+          });
+        </script>
+
+        <a href="/admin/new_user" class="a_button">Create new user</a>
+      </div>
+    </div>
+
+    <!-- Course view -->
+    <div id="module_view_tab" class="col s12">
+      <div id="module_view" class="admin_card">
+        <h3 class="admin_card_title">Modules</h3>
+
+        {{ module_table|safe }}
+
+        <script>
+          $(document).ready(function () {
+            $('#module-table').DataTable();
+          });
+        </script>
+
+        <a href="/admin/new_module" class="a_button">Create new module</a>
+      </div>
+    </div>
   </div>
 
+  <script>
+    $(document).ready(function(){
+      $('.tabs').tabs();
+    });
+  </script>
 
 {% endblock %}

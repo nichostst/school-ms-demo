@@ -19,6 +19,10 @@ function register(e) {
     .then((data) => {
         console.log(data);
         form.reset();
+        message = 'Username ' + username + ' has been successfully created!';
+        info = document.getElementById('create_status_info');
+        info.innerText = message;
+        info.style.visibility = "visible"
     })
     .catch((err) => {
         console.log(err);

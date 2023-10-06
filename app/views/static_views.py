@@ -11,7 +11,7 @@ from sqlalchemy import select
 from ..permissions import roles_required
 from .. import db_manager as db
 from ..models import User, Role
-from ..utils.html.table import Tabulator
+from ..utils.tables.admin import get_user_table_html
 
 def index():
     return render_template('index.html')
@@ -34,22 +34,8 @@ def profile():
 @roles_required('admin')
 def admin():
     # User table
-    users = db.session.query(User).all()
-    data = [
-        {
-            'user_id': u.user_id,
-            'username': u.username,
-            'email': u.email,
-            'role': u.role.name,
-            'created_at': u.created_at
-        } for u in users
-    ]
-    cols = ['user_id', 'username', 'email', 'role', 'created_at']
-    col_labels = ['ID', 'Username', 'Email', 'Role', 'Created At']
-    styles = ['compact', 'stripe', 'hover']
-
-    tab = Tabulator()
-    user_table = tab.tabulate(data=data, cols=cols, col_labels=col_labels, alias='user', styles=styles)
+    user_table = get_user_table_html(session=db.session)
+    
     return render_template('admin.html', user_table=user_table, current_user=current_user)
 
 @login_required

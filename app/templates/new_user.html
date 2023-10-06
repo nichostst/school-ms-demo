@@ -1,32 +1,61 @@
 {% extends "base.html" %}
 
+{% block styles %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin.css') }}">
+{% endblock %}
+
 {% block content %}
   {% include "components/topnav.html" %}
 
+  <h2>
+    Create New User
+  </h2>
   
-  <div style="padding: 10px;">
-    <form id="admin_new_user" action="/submit" method="POST">
-      <label for="user-type">User type</label>
-      <select id="user-type" name="role">
-        {% for role in roles %}
-          <option value="{{ role.name }}">{{ role.name.capitalize() }}</option>
-        {% endfor %}
-      </select>
+  <div id="user_view" class="admin_card">
+    <div style="width: 80%;">
+      <form id="admin_new_user" action="/submit" method="POST">
+        
+        <div class="input-field col s6">
+          <label>User type</label>
+          <select id="user-type" name="role">
+            <option value="" disabled selected>Choose user type</option>
+            {% for role in roles %}
+              <option value="{{ role.name }}">{{ role.name.capitalize() }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required>
+        <div class="row">
+          <div class="input-field col s3">
+            <label for="username">Username</label>
+            <input id="username" type="text" class="validate">
+          </div>
+          <div class="col s1"></div>
+          <div class="input-field col s3">
+            <label for="email">Email</label>
+            <input id="email" type="text" class="validate">
+          </div>
+          <div class="col s1"></div>
+          <div class="input-field col s3">
+            <label for="password">Password</label>
+            <input id="password" type="text" class="validate">
+          </div>
+        </div>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
+        <div>
+          <input type="submit" class="input_submit" value="Create">
+        </div>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-
-      <div>
-        <input type="submit" class="input_submit" value="Create">
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 
+  <div id="create_status_info"></div>
+
   <script src="/static/js/newUser.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('select').formSelect();
+    });
+  </script>
 {% endblock %}
