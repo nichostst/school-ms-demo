@@ -1,0 +1,16 @@
+<div class="topnav">
+  {% if current_user.user_id %}
+    <a href="/home">
+      <img src="../static/images/home.jpeg" class="topnav_icon">
+    </a>
+    <a href="/logout">
+      Logout
+    </a>
+    <a href="/profile">
+      <img src="../static/images/profile.png" class="topnav_icon">
+      {{ current_user.username }}
+    </a>
+  {% else %}
+    <a href="/login" class="a_button" style="margin: 8px;">Login</a>
+  {% endif %}
+</div>

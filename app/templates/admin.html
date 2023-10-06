@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {% include "styling/table.html" %}
+{% endblock %}
+
+{% block content %}
+  {% include "components/topnav.html" %}
+
+  <h1>
+    Admin
+  </h1>
+
+  <div id="user_view" class="admin_card">
+    <h3 class="admin_card_title">Users</h3>
+
+    {{ user_table|safe }}
+
+    <script>
+      $(document).ready(function () {
+        $('#user-table').DataTable();
+      });
+    </script>
+
+    <a href="/admin/new_user" class="a_button">Create new user</a>
+  </div>
+
+
+{% endblock %}

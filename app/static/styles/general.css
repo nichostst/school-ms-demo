@@ -1,0 +1,61 @@
+.topnav {
+    background-color: rgb(230, 230, 230);
+    overflow: hidden;
+}
+
+.topnav a {
+    float: right;
+    color: rgb(40, 40, 40);
+    text-align: center;
+    padding: 10px 14px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.topnav a:hover {
+    transition-duration: 0.5s;
+    background-color: rgb(200, 200, 200);
+    color: rgb(40, 40, 40);
+}
+
+.topnav a.active {
+    background-color: rgb(80, 80, 80);
+    color: rgb(230, 230, 230);
+}
+
+.topnav_icon {
+    width: 24px;
+    vertical-align: middle;
+    margin: auto;
+}
+
+a.a_button, input.input_submit {
+    background-color: rgb(40, 40, 40);
+    color: rgb(230, 230, 230);
+    padding: 4px 8px;
+    border: none;
+    border-radius: 3px;
+    font-size: 10pt;
+}
+
+a.a_button:hover, input.input_submit:hover {
+    background-color: rgb(100, 100, 100);
+    color: rgb(230, 230, 230);
+}
+
+.admin_card {
+    background-color: rgb(240, 240, 240);
+    border-radius: 10pt;
+    padding: 10pt;
+}
+
+.admin_card_title {
+    margin-top: 10pt;
+}
+
+label {
+    font-size: 10px;
+    font-style: italic;
+    font-weight: lighter;
+    margin-bottom: 0px;
+}
