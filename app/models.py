@@ -81,7 +81,7 @@ class ModuleCoordinator(Base):
 
 class ModuleLecturer(Base):
     __tablename__ = 'modules_lecturers'
-    coordinator_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
+    lecturer_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
     module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
     assigned_at = Column(DateTime, nullable=False, server_default=F.now())
 
