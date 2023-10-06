@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+  {% include "components/topnav.html" %}
+
+  <h2>
+    Create New Module
+  </h2>
+  
+  <div id="user_view" class="admin_card">
+    <div style="width: 80%;">
+      <form id="admin_new_module" action="/submit" method="POST">
+
+        <div class="row">
+          <div class="input-field col s3">
+            <label for="module_code">Module Code</label>
+            <input id="module_code" type="text" class="validate">
+          </div>
+          <div class="col s1"></div>
+          <div class="input-field col s3">
+            <label for="module_name">Module Name</label>
+            <input id="module_name" type="text" class="validate">
+          </div>
+          <div class="col s1"></div>
+          <div class="input-field col s3">
+            <label for="credits">Credits</label>
+            <input id="credits" type="number" class="validate">
+          </div>
+        </div>
+
+        <div>
+          <input type="submit" class="input_submit" value="Create">
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div id="create_status_info"></div>
+
+  <script src="/static/js/newModule.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('select').formSelect();
+    });
+  </script>
+{% endblock %}

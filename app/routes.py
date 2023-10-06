@@ -11,7 +11,7 @@ from sqlalchemy.orm import scoped_session
 
 
 def init_routes(app: Flask, db: scoped_session) -> None:
-    from .views import static_views, error_views, account_management_views
+    from .views import static_views, error_views, account_management_views, module_management_views
     from .models import User
     from app import login_manager
 
@@ -55,6 +55,11 @@ def init_routes(app: Flask, db: scoped_session) -> None:
         view_func=account_management_views.admin_register_account,
         methods=['POST']
     )
+    app.add_url_rule(
+        '/api/admin/new_module',
+        view_func=module_management_views.admin_register_module,
+        methods=['POST']
+    )
 
     # Login required views
     app.add_url_rule('/home', view_func=static_views.home)
@@ -63,6 +68,7 @@ def init_routes(app: Flask, db: scoped_session) -> None:
     # Admin role required views
     app.add_url_rule('/admin', view_func=static_views.admin)
     app.add_url_rule('/admin/new_user', view_func=static_views.new_user)
+    app.add_url_rule('/admin/new_module', view_func=static_views.new_module)
 
     app.register_error_handler(404, error_views.not_found_error)
     app.register_error_handler(500, error_views.internal_error)

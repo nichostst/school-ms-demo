@@ -17,7 +17,7 @@
     <div class="col s12">
       <ul class="tabs">
         <li class="tab col s3"><a class="active" href="#user_view_tab">User View</a></li>
-        <li class="tab col s3"><a href="#check">Check</a></li>
+        <li class="tab col s3"><a href="#module_view_tab">Module View</a></li>
       </ul>
     </div>
 
@@ -26,7 +26,7 @@
       <div id="user_view" class="admin_card">
         <h3 class="admin_card_title">Users</h3>
 
-        {{ user_table|safe }}
+        {{ tables.user|safe }}
 
         <script>
           $(document).ready(function () {
@@ -38,12 +38,12 @@
       </div>
     </div>
 
-    <!-- Course view -->
+    <!-- Module view -->
     <div id="module_view_tab" class="col s12">
       <div id="module_view" class="admin_card">
         <h3 class="admin_card_title">Modules</h3>
 
-        {{ module_table|safe }}
+        {{ tables.module|safe }}
 
         <script>
           $(document).ready(function () {

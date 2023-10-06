@@ -35,3 +35,7 @@ class CouldNotVerifyLogin(Error):
 class PermissionDeniedError(Error):
     message = "You don't have necessary permissions."
     internal_error_code = 40301
+
+class ModuleAlreadyExistsError(Error):
+    message = "There is already an module associated with this module code."
+    internal_error_code = 40903

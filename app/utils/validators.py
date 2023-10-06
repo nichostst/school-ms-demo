@@ -27,3 +27,23 @@ class AccountValidator(Schema):
 
 class EmailValidator(Schema):
     email = fields.Email(required=True, load_only=True)
+
+class ModuleValidator(Schema):
+    module_code = fields.Str(
+        required=True,
+        load_only=True,
+        validate=[
+            validate.Length(5, 6, error="Length of module code has to be 5 or 6."),
+            validate.Regexp(
+                "[A-Z]{2}[0-9]{3,4}",
+                error="Module code has to start with two capital letters followed by 3 to 4 numbers."
+            )
+        ]
+    )
+    credits = fields.Integer(
+        required=True,
+        load_only=True,
+        validate=validate.Range(
+            min=1, max=10, error="Value must be greater than 0 and at most 10."
+        )
+    )
