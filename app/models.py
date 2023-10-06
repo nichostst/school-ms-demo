@@ -69,7 +69,9 @@ class UserRole(Base):
 class Module(Base):
     __tablename__ = 'modules'
     module_id = Column(Integer, primary_key=True)
+    module_code = Column(Text, nullable=False)
     name = Column(Text, nullable=False)
+    credits = Column(Integer)
 
 class ModuleCoordinator(Base):
     __tablename__ = 'modules_coordinators'
