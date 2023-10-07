@@ -1,4 +1,5 @@
 # Standard Library imports
+from typing import List
 
 # Core Flask imports
 from flask_login import UserMixin
@@ -10,12 +11,12 @@ from sqlalchemy import (
     Numeric,
     Text,
     String,
-    Boolean,
     DateTime,
     ForeignKey,
 )
 from sqlalchemy import func as F
-from sqlalchemy.orm import relationship
+from sqlalchemy import Table
+from sqlalchemy.orm import relationship, Mapped
 
 # App imports
 from app import db_manager
@@ -39,12 +40,18 @@ class User(Base, UserMixin):
     email = Column(Text, unique=True, nullable=False)
     password_hash = Column(String(128), nullable=False)
     created_at = Column(DateTime, nullable=False, server_default=F.now())
-    confirmed = Column(Boolean, nullable=False, server_default="false")
 
     account_id = Column(Integer, ForeignKey('accounts.account_id'), nullable=False)
 
     account = relationship('Account', back_populates='users')
     role = relationship('Role', uselist=False, secondary='users_roles')
+
+    coordinated_modules = relationship(
+        'Module', uselist=False, secondary='modules_coordinators', back_populates='coordinators'
+    )
+    taught_modules = relationship(
+        'Module', uselist=False, secondary='modules_lecturers', back_populates='lecturers'
+    )
 
     def get_id(self):
         return self.user_id
@@ -73,26 +80,30 @@ class Module(Base):
     name = Column(Text, nullable=False)
     credits = Column(Integer)
 
-class ModuleCoordinator(Base):
-    __tablename__ = 'modules_coordinators'
-    coordinator_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
-    module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
-    assigned_at = Column(DateTime, nullable=False, server_default=F.now())
+    coordinators = relationship(
+        'User', uselist=False, secondary='modules_coordinators', back_populates='coordinated_modules'
+    )
+    lecturers = relationship(
+        'User', uselist=False, secondary='modules_lecturers', back_populates='taught_modules'
+    )
 
-class ModuleLecturer(Base):
-    __tablename__ = 'modules_lecturers'
-    lecturer_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
-    module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
-    term_id = Column(Integer, ForeignKey("terms.term_id"))
-    assigned_at = Column(DateTime, nullable=False, server_default=F.now())
+modules_coordinators = Table('modules_coordinators', Base.metadata,
+    Column('coordinator_id', Integer, ForeignKey('users.user_id'), primary_key=True),
+    Column('module_id', Integer, ForeignKey('modules.module_id'), primary_key=True)
+)
 
-class ModuleStudents(Base):
-    __tablename__ = 'modules_students'
-    coordinator_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
-    module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
-    term_id = Column(Integer, ForeignKey("terms.term_id"), nullable=False)
-    grade = Column(Numeric)
-    assigned_at = Column(DateTime, nullable=False, server_default=F.now())
+modules_lecturers = Table('modules_lecturers', Base.metadata,
+    Column('lecturer_id', Integer, ForeignKey('users.user_id'), primary_key=True),
+    Column('module_id', Integer, ForeignKey('modules.module_id'), primary_key=True),
+    Column('term_id', Integer, ForeignKey('terms.term_id')),
+)
+
+modules_students = Table('modules_students', Base.metadata,
+    Column('student_id', Integer, ForeignKey('users.user_id'), primary_key=True),
+    Column('module_id', Integer, ForeignKey('modules.module_id'), primary_key=True),
+    Column('term_id', Integer, ForeignKey('terms.term_id')),
+    Column('grade', Numeric),
+)
 
 class ModuleGradeStructure(Base):
     __tablename__ = 'module_grade_structure'

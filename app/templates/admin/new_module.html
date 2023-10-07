@@ -15,25 +15,25 @@
     <div style="width: 80%;">
       <form id="admin_new_module" action="/submit" method="POST">
 
-        <div class="row">
-          <div class="input-field col s3">
+        <div class="row s9">
+          <div class="input-field col s2">
             <label for="module_code">Module Code</label>
             <input id="module_code" type="text" class="validate">
           </div>
           <div class="col s1"></div>
-          <div class="input-field col s3">
+          <div class="input-field col s4">
             <label for="module_name">Module Name</label>
             <input id="module_name" type="text" class="validate">
           </div>
           <div class="col s1"></div>
-          <div class="input-field col s3">
+          <div class="input-field col s1">
             <label for="credits">Credits</label>
             <input id="credits" type="number" class="validate">
           </div>
         </div>
 
-        <div class="col s8">
-          <div class="input-field col s4">
+        <div class="row s9">
+          <div class="input-field col s4" style="display: inline-block;">
             <label>Assign coordinator</label>
             <select multiple id="assign-coordinators" name="coordinators" style="display: none;">
               <option value="" disabled>Choose coordinators</option>
@@ -43,7 +43,9 @@
             </select>
           </div>
 
-          <div class="input-field col s4">
+          <div class="col s1" style="display: inline;"></div>
+
+          <div class="input-field col s4" style="display: inline-block;">
             <label>Assign lecturer</label>
             <select multiple id="assign-lecturers" name="lecturers" style="display: none;">
               <option value="" disabled>Choose lecturers</option>

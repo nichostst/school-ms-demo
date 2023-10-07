@@ -7,7 +7,7 @@ from typing import List
 from sqlalchemy.orm import scoped_session
 
 # App imports
-from app.models import User, Module, ModuleCoordinator, ModuleLecturer
+from app.models import User, Module, modules_coordinators, modules_lecturers
 from app.utils.html.table import Tabulator
 
 
@@ -35,8 +35,8 @@ def get_module_table_html(session):
     modules: List[Module] = session.query(Module).all()
     module_ids = [m.module_id for m in modules]
 
-    coordinators: List[ModuleCoordinator] = session.query(ModuleCoordinator).all()
-    lecturers: List[ModuleLecturer] = session.query(ModuleLecturer).all()
+    coordinators = session.query(modules_coordinators).all()
+    lecturers = session.query(modules_lecturers).all()
 
     users: List[User] = session.query(User).all()
     id_to_username = {u.user_id: u.username for u in users}
@@ -60,7 +60,6 @@ def get_module_table_html(session):
             'lecturers': ', '.join(module_lecturers[m.module_id]),
         } for m in modules
     ]
-    print(data)
     cols = ['module_id', 'module_code', 'module_name', 'credits', 'coordinators', 'lecturers']
     col_labels = ['ID', 'Code', 'Name', 'Credits', 'Coordinators', 'Lecturers']
     styles = ['compact', 'stripe', 'hover']
