@@ -83,6 +83,7 @@ class ModuleLecturer(Base):
     __tablename__ = 'modules_lecturers'
     lecturer_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
     module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
+    term_id = Column(Integer, ForeignKey("terms.term_id"))
     assigned_at = Column(DateTime, nullable=False, server_default=F.now())
 
 class ModuleStudents(Base):
