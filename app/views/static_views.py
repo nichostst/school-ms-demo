@@ -9,7 +9,7 @@ from flask_login import login_required, current_user
 # App imports
 from ..permissions import roles_required
 from .. import db_manager as db
-from ..models import Role
+from ..models import Role, User
 from ..utils.tables.admin import get_user_table_html, get_module_table_html
 
 def index():
@@ -21,6 +21,7 @@ def register():
 def login():
     return render_template('login.html')
 
+# Common login-required views
 @login_required
 def home():
     role: Role = current_user.role
@@ -29,6 +30,8 @@ def home():
 @login_required
 def profile():
     return render_template('profile.html')
+
+# Admin only views
 
 @login_required
 @roles_required('admin')
@@ -56,4 +59,13 @@ def new_user():
 @login_required
 @roles_required('admin')
 def new_module():
-    return render_template('admin/new_module.html')
+    coordinators = db.session.query(User).join(User.role).filter(Role.name == 'coordinator').all()
+    lecturers = db.session.query(User).join(User.role).filter(Role.name == 'lecturer').all()
+    return render_template('admin/new_module.html', coordinators=coordinators, lecturers=lecturers)
+
+# Coordinator only views
+
+@login_required
+@roles_required('coordinator')
+def coordinator():
+    return render_template('coordinator/coordinator.html')

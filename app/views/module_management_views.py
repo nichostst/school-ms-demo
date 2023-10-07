@@ -19,9 +19,14 @@ def admin_register_module():
     module_code = request.json.get('module_code')
     module_name = request.json.get('module_name')
     credits = request.json.get('credits')
+    coordinators = request.json.get('coordinators')
+    lecturers = request.json.get('lecturers')
+
+    coordinators = [int(c) for c in coordinators]
+    lecturers = [int(l) for l in lecturers]
 
     try:
-        mm.create_module(module_code, module_name, credits)
+        mm.create_module(module_code, module_name, credits, coordinators, lecturers)
     except marshmallow.ValidationError as e:
         return get_validation_error_response(validation_error=e, http_status_code=422)
     except custom_errors.EmailAlreadyExistsError as e:

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {% include "styling/table.html" %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/coordniator.css') }}">
+{% endblock %}
+
+{% block content %}
+  {% include "components/topnav.html" %}
+
+  <h2>
+    Coordinator
+  </h2>
+{% endblock %}

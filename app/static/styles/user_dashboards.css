@@ -1,0 +1,36 @@
+.card {
+    background-color: rgb(240, 240, 240);
+    border-radius: 10pt;
+    padding: 10pt;
+    margin-top: 10pt;
+}
+
+.card_title {
+    margin-top: 10pt;
+}
+
+.dataTables_length label {
+    /* display: inline; */
+    display: block;
+    height: auto;
+}
+
+.dataTables_length label select {
+    display: inline;
+    height: auto;
+}
+
+.dataTables_filter label input {
+    height: auto;
+}
+
+.dataTables_wrapper label {
+    white-space: nowrap;
+}
+
+.dataTables_wrapper label input:not(#\9) {
+    height: auto;
+    width: auto;
+    font-size: inherit;
+    margin: 0 0 0 3px;
+}

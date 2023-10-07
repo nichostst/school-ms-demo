@@ -11,7 +11,7 @@
     Create New Module
   </h2>
   
-  <div id="user_view" class="admin_card">
+  <div id="user_view" class="card">
     <div style="width: 80%;">
       <form id="admin_new_module" action="/submit" method="POST">
 
@@ -32,6 +32,28 @@
           </div>
         </div>
 
+        <div class="col s8">
+          <div class="input-field col s4">
+            <label>Assign coordinator</label>
+            <select multiple id="assign-coordinators" name="coordinators" style="display: none;">
+              <option value="" disabled>Choose coordinators</option>
+              {% for c in coordinators %}
+                <option value="{{ c.user_id }}">{{ c.username }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="input-field col s4">
+            <label>Assign lecturer</label>
+            <select multiple id="assign-lecturers" name="lecturers" style="display: none;">
+              <option value="" disabled>Choose lecturers</option>
+              {% for l in lecturers %}
+                <option value="{{ l.user_id }}">{{ l.username }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
         <div>
           <input type="submit" class="input_submit" value="Create">
         </div>
@@ -44,8 +66,8 @@
 
   <script src="/static/js/newModule.js"></script>
   <script>
-    $(document).ready(function(){
-      $('select').formSelect();
+    document.addEventListener('DOMContentLoaded', function() {
+      M.AutoInit();
     });
   </script>
 {% endblock %}

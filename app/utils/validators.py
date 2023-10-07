@@ -47,3 +47,15 @@ class ModuleValidator(Schema):
             min=1, max=10, error="Value must be greater than 0 and at most 10."
         )
     )
+
+    n_coordinators = fields.Integer(
+        validate=validate.Range(
+            min=1, max=2, error="At least one and at most 2 coordinator has to be selected."
+        )
+    )
+
+    n_lecturers = fields.Integer(
+        validate=validate.Range(
+            min=1, max=4, error="At least one and at most 4 lecturer has to be selected."
+        )
+    )

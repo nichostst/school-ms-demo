@@ -6,17 +6,20 @@
 
 # App imports
 from app import db_manager as db
-from ..models import  Module
+from ..models import  Module, ModuleCoordinator, ModuleLecturer
 from ..utils.validators import ModuleValidator
 from ..utils import custom_errors
 
 
-def create_module(module_code, module_name, credits):
+def create_module(module_code, module_name, credits, coordinators, lecturers):
     fields_to_validate_dict = {
         "module_code": module_code,
-        "credits": int(credits)
+        "credits": int(credits),
+        "n_coordinators": len(coordinators),
+        "n_lecturers": len(lecturers)
     }
 
+    # TODO: Validate coordinators and lecturers
     ModuleValidator().load(fields_to_validate_dict)
 
     if (
@@ -30,6 +33,22 @@ def create_module(module_code, module_name, credits):
         credits=credits
     )
     db.session.add(module_model)
+    db.session.flush()
+
+    for c in coordinators:
+        mc = ModuleCoordinator(
+            coordinator_id=c,
+            module_id=module_model.module_id
+        )
+        db.session.add(mc)
+
+    for l in lecturers:
+        ml = ModuleLecturer(
+            lecturer_id=l,
+            module_id=module_model.module_id
+        )
+        db.session.add(ml)
+
     db.session.commit()
 
     return module_model

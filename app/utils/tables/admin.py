@@ -38,8 +38,17 @@ def get_module_table_html(session):
     coordinators: List[ModuleCoordinator] = session.query(ModuleCoordinator).all()
     lecturers: List[ModuleLecturer] = session.query(ModuleLecturer).all()
 
-    module_coordinators = {m: [c for c in coordinators if c.module_id == m] for m in module_ids}
-    module_lecturers = {m: [l for l in lecturers if l.module_id == m] for m in module_ids}
+    users: List[User] = session.query(User).all()
+    id_to_username = {u.user_id: u.username for u in users}
+
+    module_coordinators = {
+        m: [id_to_username[c.coordinator_id] for c in coordinators if c.module_id == m]
+        for m in module_ids
+    }
+    module_lecturers = {
+        m: [id_to_username[l.lecturer_id] for l in lecturers if l.module_id == m]
+        for m in module_ids
+    }
 
     data = [
         {
@@ -47,10 +56,11 @@ def get_module_table_html(session):
             'module_code': m.module_code,
             'module_name': m.name,
             'credits': m.credits,
-            'coordinators': module_coordinators[m.module_id],
-            'lecturers': module_lecturers[m.module_id],
+            'coordinators': ', '.join(module_coordinators[m.module_id]),
+            'lecturers': ', '.join(module_lecturers[m.module_id]),
         } for m in modules
     ]
+    print(data)
     cols = ['module_id', 'module_code', 'module_name', 'credits', 'coordinators', 'lecturers']
     col_labels = ['ID', 'Code', 'Name', 'Credits', 'Coordinators', 'Lecturers']
     styles = ['compact', 'stripe', 'hover']

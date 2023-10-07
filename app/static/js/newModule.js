@@ -6,13 +6,23 @@ function register(e) {
     let module_name = document.getElementById('module_name').value;
     let credits = document.getElementById('credits').value;
 
+    let coordinators = Array.from(document.getElementById('assign-coordinators').selectedOptions).map(o => o.value)
+    let lecturers = Array.from(document.getElementById('assign-lecturers').selectedOptions).map(o => o.value)
+
+
     fetch("/api/admin/new_module", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         credentials: "same-origin",
-        body: JSON.stringify({ module_code: module_code, module_name: module_name, credits: credits }),
+        body: JSON.stringify({
+            module_code: module_code,
+            module_name: module_name,
+            credits: credits,
+            coordinators: coordinators,
+            lecturers: lecturers
+        }),
     })
     .then((res) => res.json())
     .then((data) => {
