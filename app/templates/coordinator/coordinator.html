@@ -2,7 +2,7 @@
 
 {% block styles %}
   {% include "styling/table.html" %}
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/coordniator.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/coordinator.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -11,4 +11,44 @@
   <h2>
     Coordinator
   </h2>
+
+  <!-- Tabs -->
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s3"><a class="active" href="#modules_lecturers_view_tab">Lecturer Assignment</a></li>
+        <li class="tab col s3"><a href="#other_view_tab">Other View</a></li>
+      </ul>
+    </div>
+
+    <!-- Modules/Lecturers view -->
+    <div id="modules_lecturers_view_tab" class="col s12">
+      <div id="modules_lecturers_view" class="card">
+        <h3 class="card_title">Lecturer Assignment</h3>
+
+        {{ tables.modules_lecturers|safe }}
+
+        <script>
+          $(document).ready(function () {
+            $('#modules_lecturers-table').DataTable();
+          });
+        </script>
+
+        <a href="/coordinator/assign_lecturer" class="a_button">Assign Lecturer</a>
+      </div>
+    </div>
+
+    <!-- Other view -->
+    <div id="other_view_tab" class="col s12">
+      <div id="other_view" class="card">
+        Others
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $('.tabs').tabs();
+    });
+  </script>
 {% endblock %}

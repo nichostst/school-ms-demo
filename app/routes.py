@@ -1,8 +1,7 @@
 # Standard Library imports
 
 # Core Flask imports
-from flask import Flask, render_template, redirect, url_for, request
-from flask_login import login_user, current_user, login_required
+from flask import Flask
 
 # Third-party imports
 from sqlalchemy.orm import scoped_session
@@ -11,7 +10,14 @@ from sqlalchemy.orm import scoped_session
 
 
 def init_routes(app: Flask, db: scoped_session) -> None:
-    from .views import static_views, error_views, account_management_views, module_management_views
+    from .views import (
+        static_views,
+        admin_views,
+        coordinator_views,
+        error_views,
+        account_management_views,
+        module_management_views
+    )
     from .models import User
     from app import login_manager
 
@@ -30,7 +36,6 @@ def init_routes(app: Flask, db: scoped_session) -> None:
 
     # Public views
     app.add_url_rule('/', view_func=static_views.index)
-    app.add_url_rule('/register', view_func=static_views.register)
     app.add_url_rule('/login', view_func=static_views.login)
 
     # Public APIs
@@ -61,17 +66,25 @@ def init_routes(app: Flask, db: scoped_session) -> None:
         methods=['POST']
     )
 
+    # Coordinator APIs
+    app.add_url_rule(
+        "/api/coordinator/assign_lecturer",
+        view_func=coordinator_views.assign_api,
+        methods=['POST']
+    )
+
     # Login required views
     app.add_url_rule('/home', view_func=static_views.home)
     app.add_url_rule('/profile', view_func=static_views.profile)
 
     # Admin role required views
-    app.add_url_rule('/admin', view_func=static_views.admin)
-    app.add_url_rule('/admin/new_user', view_func=static_views.new_user)
-    app.add_url_rule('/admin/new_module', view_func=static_views.new_module)
+    app.add_url_rule('/admin', view_func=admin_views.admin)
+    app.add_url_rule('/admin/new_user', view_func=admin_views.new_user)
+    app.add_url_rule('/admin/new_module', view_func=admin_views.new_module)
 
     # Coordinator role required views
-    app.add_url_rule('/coordinator', view_func=static_views.coordinator)
+    app.add_url_rule('/coordinator', view_func=coordinator_views.coordinator)
+    app.add_url_rule('/coordinator/assign_lecturer', view_func=coordinator_views.assign_lecturer)
 
     app.register_error_handler(404, error_views.not_found_error)
     app.register_error_handler(500, error_views.internal_error)

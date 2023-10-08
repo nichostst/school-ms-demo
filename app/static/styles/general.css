@@ -18,7 +18,9 @@ label {
 select {
     display: block;
     width: inherit;
+    height: auto;
     font-size: 10pt;
+    border-radius: 5px;
 }
 
 .topnav {
@@ -64,6 +66,11 @@ a.a_button, input.input_submit {
 a.a_button:hover, input.input_submit:hover {
     background-color: rgb(100, 100, 100);
     color: rgb(230, 230, 230);
+}
+
+.input-field {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .input-field.col label {

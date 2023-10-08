@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Dict
 
 
 class Element(ABC):
@@ -78,3 +78,24 @@ class Input(Element):
 
     def html(self):
         return f'<{self.__tagname__} {self.tagstr}>'
+
+
+class MaterialDropdown(Element):
+    def __init__(self, options: Dict[str, str] = None, name: str = None, **kwargs):
+        self.options = options
+        self.name = name
+
+    def html(self):
+        options_html = ['<option value="" disabled>Choose</option>']
+        for k, v in self.options.items():
+            options_html.append(f'<option value="{k}">{v}</option>')
+
+        options_html = '\n'.join(options_html)
+
+        return f'''
+            <div class="input-field col s6">
+                <select multiple id="{self.name}" name="{self.name}" style="display: none;">
+                    {options_html}
+                </select>
+            </div>
+        '''

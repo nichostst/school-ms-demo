@@ -8,11 +8,8 @@ from flask_login import login_user, logout_user
 import marshmallow
 
 # App imports
-from app import db_manager as db
-from ..models import User, Account
 from ..services import account_management_services as am
 from ..utils import custom_errors, sanitization
-from ..utils.validators import AccountValidator
 from ..utils.error_utils import (
     get_business_requirement_error_response,
     get_validation_error_response,
