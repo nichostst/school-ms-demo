@@ -85,6 +85,10 @@ def init_routes(app: Flask, db: scoped_session) -> None:
     # Coordinator role required views
     app.add_url_rule('/coordinator', view_func=coordinator_views.coordinator)
     app.add_url_rule('/coordinator/assign_lecturer', view_func=coordinator_views.assign_lecturer)
+    app.add_url_rule(
+        "/coordinator/grade_restructure/<int:module_id>",
+        view_func=coordinator_views.grade_restructure,
+    )
 
     app.register_error_handler(404, error_views.not_found_error)
     app.register_error_handler(500, error_views.internal_error)

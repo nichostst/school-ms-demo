@@ -26,12 +26,15 @@ select {
 .topnav {
     background-color: rgb(230, 230, 230);
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 
 .topnav a {
-    float: right;
+    display: inline-block;
     color: rgb(40, 40, 40);
     text-align: center;
+    vertical-align: middle;
     padding: 10px 14px;
     text-decoration: none;
     font-size: 14px;
@@ -54,7 +57,7 @@ select {
     margin: auto;
 }
 
-a.a_button, input.input_submit {
+a.a_button, input.input_submit, #logout_button {
     background-color: rgb(40, 40, 40);
     color: rgb(230, 230, 230);
     padding: 4px 8px;
@@ -63,7 +66,7 @@ a.a_button, input.input_submit {
     font-size: 10pt;
 }
 
-a.a_button:hover, input.input_submit:hover {
+a.a_button:hover, input.input_submit:hover, #logout_button:hover {
     background-color: rgb(100, 100, 100);
     color: rgb(230, 230, 230);
 }
@@ -77,4 +80,13 @@ a.a_button:hover, input.input_submit:hover {
     position: inherit;
     font-size: 8pt;
     left: 0;
+}
+
+.material-icons {
+    vertical-align: middle;
+}
+
+#logout_button, #profile_button {
+    height: fit-content;
+    margin: auto 10 auto auto;
 }

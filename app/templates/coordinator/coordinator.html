@@ -17,7 +17,7 @@
     <div class="col s12">
       <ul class="tabs">
         <li class="tab col s3"><a class="active" href="#modules_lecturers_view_tab">Lecturer Assignment</a></li>
-        <li class="tab col s3"><a href="#other_view_tab">Other View</a></li>
+        <li class="tab col s3"><a href="#grade_structure_view_tab">Grade Structure</a></li>
       </ul>
     </div>
 
@@ -39,9 +39,17 @@
     </div>
 
     <!-- Other view -->
-    <div id="other_view_tab" class="col s12">
-      <div id="other_view" class="card">
-        Others
+    <div id="grade_structure_view_tab" class="col s12">
+      <div id="grade_structure_view" class="card">
+        <h3 class="card_title">Grade Structure</h3>
+
+        {{ tables.grade_structure|safe }}
+
+        <script>
+          $(document).ready(function () {
+            $('#grade_structure-table').DataTable();
+          });
+        </script>
       </div>
     </div>
   </div>

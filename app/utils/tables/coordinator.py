@@ -8,16 +8,30 @@ from flask_login import current_user
 from sqlalchemy.orm import scoped_session
 
 # App imports
-from app.models import User, Module, Term, Role, modules_coordinators, modules_lecturers
+from app.models import (
+    User, Module, Term, Role, ModuleGradeStructure,
+    modules_coordinators, modules_lecturers
+)
 from app.utils.html.table import Tabulator
 from app.utils.html.elements import MaterialDropdown
 
 
-def get_modules_lecturers_table_html(session: scoped_session, assign_terms=False):
-    # Map module ID to module names and codes
+def _get_module_names_codes(session: scoped_session):
     module_list = session.query(Module).all()
     module_names = {m.module_id: m.name for m in module_list}
     module_codes = {m.module_id: m.module_code for m in module_list}
+    return module_names, module_codes
+
+def _get_coordinated_modules(session: scoped_session):
+    mc = session.query(
+        modules_coordinators.c.coordinator_id,
+        modules_coordinators.c.module_id,
+    ).filter(modules_coordinators.c.coordinator_id == current_user.user_id).all()
+    coordinated_modules = [m.module_id for m in mc]
+    return coordinated_modules
+
+def get_modules_lecturers_table_html(session: scoped_session, assign_terms=False):
+    module_names, module_codes = _get_module_names_codes(session)
 
     # Map lecturer ID to lecturer names
     lecturer_list = session.query(User).join(User.role).filter(Role.name == 'lecturer').all()
@@ -28,11 +42,7 @@ def get_modules_lecturers_table_html(session: scoped_session, assign_terms=False
     term_names = {t.term_id: t.name for t in term_list}
 
     # Query all modules coordinated by current user
-    mc = session.query(
-        modules_coordinators.c.coordinator_id,
-        modules_coordinators.c.module_id,
-    ).filter(modules_coordinators.c.coordinator_id == current_user.user_id).all()
-    coordinated_modules = [m.module_id for m in mc]
+    coordinated_modules = _get_coordinated_modules(session)
 
     # All module-lecturer-term relationships under current user
     module_lecturers_list = session.query(
@@ -93,3 +103,54 @@ def get_modules_lecturers_table_html(session: scoped_session, assign_terms=False
         alias='modules_lecturers',
         styles=styles)
     return modules_lecturers_table_html
+
+def get_grade_structure_table_html(session: scoped_session):
+    module_names, module_codes = _get_module_names_codes(session)
+    coordinated_modules = _get_coordinated_modules(session)
+
+    grade_structure = session.query(ModuleGradeStructure).all()
+
+    grade_structure_table = []
+    for m in coordinated_modules:
+        module_structure = [g for g in grade_structure if g.module_id == m]
+        structure = []
+        for ms in module_structure:
+            structure.append(f'{ms.structure_type.capitalize()}: {ms.weightage:.2f}')
+        
+        if module_structure:
+            structure_html = "<br>".join(structure)
+        else:
+            structure_html = '<em style="font-style: italic; font-weight: lighter; font-size: 14px;">Empty</em>'
+
+        structure_section = f'''
+            <div>
+                <div style="display: inline-block; vertical-align: middle; width: 60%;">
+                    {structure_html}
+                </div>
+                <div style="display: inline-block; vertical-align: middle; margin: 10pt">
+                    <a href="/coordinator/grade_restructure/{m}">
+                        <span class="material-icons">edit</span>
+                    </a>
+                </div>
+            </div>
+        '''
+
+        grade_structure_table.append({
+            'module_code': module_codes[m],
+            'module_name': module_names[m],
+            'structure': structure_section,
+        })
+
+    cols = ['module_code', 'module_name', 'structure']
+    col_labels = ['Module Code', 'Module Name', 'Structure']
+    styles = ['compact', 'stripe', 'hover']
+
+    tab = Tabulator()
+    grade_structure_table_html = tab.tabulate(
+        data=grade_structure_table,
+        cols=cols,
+        col_labels=col_labels,
+        alias='modules_lecturers',
+        styles=styles
+    )
+    return grade_structure_table_html

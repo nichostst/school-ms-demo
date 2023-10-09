@@ -1,15 +1,17 @@
+{% include "components/material_icons.html" %}
+
 <div class="topnav">
   {% if current_user.user_id %}
     <a href="/home">
-      <img src="../static/images/home.jpeg" class="topnav_icon">
+      <span class="material-icons">home</span>
     </a>
-    <a href="/logout">
-      Logout
-    </a>
-    <a href="/profile">
-      <img src="../static/images/profile.png" class="topnav_icon">
-      {{ current_user.username }}
-    </a>
+    <div>
+      <a href="/profile" id="profile_button">
+        <span class="material-icons">account_circle</span>
+        {{ current_user.username }}
+      </a>
+      <a href="/logout" id="logout_button">Logout</a>
+    </div>
   {% else %}
     <a href="/login" class="a_button" style="margin: 8px;">Login</a>
   {% endif %}

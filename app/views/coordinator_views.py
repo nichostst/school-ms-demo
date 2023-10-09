@@ -10,7 +10,7 @@ from flask_login import login_required
 from ..permissions import roles_required
 from .. import db_manager as db
 from ..models import User
-from ..utils.tables.coordinator import get_modules_lecturers_table_html
+from ..utils.tables.coordinator import get_modules_lecturers_table_html, get_grade_structure_table_html
 from ..services import coordinator_services as cs
 
 # Declare type
@@ -21,8 +21,10 @@ current_user: User
 @roles_required('coordinator')
 def coordinator():
     modules_lecturers_table = get_modules_lecturers_table_html(session=db.session)
+    grade_structure_table = get_grade_structure_table_html(session=db.session)
     tables = {
         'modules_lecturers': modules_lecturers_table,
+        'grade_structure': grade_structure_table,
     }
     return render_template('coordinator/coordinator.html', tables=tables)
 
@@ -65,3 +67,9 @@ def assign_api():
             return {'message': 'Partially successful', 'result': result}, 201
     else:
         return {'message': 'Unsuccessful', 'result': 'failure'}, 412
+
+
+@login_required
+@roles_required('coordinator')
+def grade_restructure(module_id):
+    return render_template('coordinator/grade_restructure.html', module_id=module_id)

@@ -107,7 +107,8 @@ modules_students = Table('modules_students', Base.metadata,
 
 class ModuleGradeStructure(Base):
     __tablename__ = 'module_grade_structure'
-    module_id = Column(Integer, ForeignKey("modules.module_id"), primary_key=True)
+    structure_id = Column(Integer, primary_key=True)
+    module_id = Column(Integer, ForeignKey("modules.module_id"), nullable=False)
     structure_type = Column(Text, nullable=False)
     weightage = Column(Numeric, nullable=False)
 

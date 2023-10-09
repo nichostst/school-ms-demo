@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {% include "styling/basic_table.html" %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/coordinator.css') }}">
+{% endblock %}
+
+{% block content %}
+  {% include "components/topnav.html" %}
+
+  <h2>
+    Grade Restructure
+  </h2>
+{% endblock %}
