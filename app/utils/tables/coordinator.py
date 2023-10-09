@@ -1,5 +1,5 @@
 # Standard Library imports
-from collections import defaultdict
+from collections import Counter
 
 # Core Flask imports
 from flask_login import current_user
@@ -113,12 +113,9 @@ def get_grade_structure_table_html(session: scoped_session):
     grade_structure_table = []
     for m in coordinated_modules:
         module_structure = [g for g in grade_structure if g.module_id == m]
-        structure = []
-        for ms in module_structure:
-            structure.append(f'{ms.structure_type.capitalize()}: {ms.weightage:.2f}')
-        
+
         if module_structure:
-            structure_html = "<br>".join(structure)
+            structure_html = _get_structure_html(module_structure)
         else:
             structure_html = '<em style="font-style: italic; font-weight: lighter; font-size: 14px;">Empty</em>'
 
@@ -154,3 +151,14 @@ def get_grade_structure_table_html(session: scoped_session):
         styles=styles
     )
     return grade_structure_table_html
+
+def _get_structure_html(module_structure):
+    structure = []
+    counter = Counter()
+    for ms in module_structure:
+        structure_name = ms.structure_type.capitalize()
+        counter.update([structure_name])
+        key = f'{structure_name} {counter[structure_name]}'
+        structure.append(f'{key} ({ms.weightage:.0%})')
+
+    return "<br>".join(structure)
