@@ -75,3 +75,29 @@ def change_weights(new_weights: Dict[str, float]):
     db.session.commit()
 
     return 'success'
+
+def create_structures(structures, types, weights, module_id):
+    try:
+        assert sum(weights) == 1
+    except AssertionError:
+        print('Weights do not sum to 100%, please check again')
+        return 'weight_failure'
+    
+    try:
+        assert min(weights) >= 0.05
+    except AssertionError:
+        print('Minimum weight for a structure is 5%, please check again')
+        return 'min_weight_failure'
+
+    for s, t, w in zip(structures, types, weights):
+        mgs = ModuleGradeStructure(
+            module_id=int(module_id),
+            structure_name=s,
+            structure_type=t,
+            weightage=w
+        )
+        db.session.add(mgs)
+        db.session.flush()
+
+    db.session.commit()
+    return 'success'

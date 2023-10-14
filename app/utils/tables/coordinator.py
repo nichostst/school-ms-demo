@@ -1,5 +1,5 @@
 # Standard Library imports
-from collections import Counter
+from typing import List
 
 # Core Flask imports
 from flask_login import current_user
@@ -160,13 +160,10 @@ def get_grade_restructure_interface_html(session: scoped_session, module_id: int
     ).all()
 
     structure = []
-    counter = Counter()
     for gs in grade_structure:
-        structure_name = gs.structure_type.capitalize()
-        counter.update([structure_name])
         structure.append({
             'id': gs.structure_id,
-            'structure_type': structure_name + str(counter[structure_name]),
+            'structure_name': gs.structure_name,
             'weightage': gs.weightage
         })
 
@@ -181,7 +178,7 @@ def get_grade_restructure_interface_html(session: scoped_session, module_id: int
         '''
         structure_list = [
             f'''<tr>
-                    <td style="width: 60%;">{s.get("structure_type")}</td>
+                    <td style="width: 60%;">{s.get("structure_name")}</td>
                     {weight_section.format(s.get("id"))}
                 </tr>
             '''
@@ -191,7 +188,7 @@ def get_grade_restructure_interface_html(session: scoped_session, module_id: int
         weight_section = '<td>{weightage:.0%}</td>'
         structure_list = [
             f'''<tr>
-                    <td style="width: 60%;">{s.get("structure_type")}</td>
+                    <td style="width: 60%;">{s.get("structure_name")}</td>
                     {weight_section.format(weightage=s.get("weightage"))}
                 </tr>
             '''
@@ -211,22 +208,17 @@ def get_grade_restructure_interface_html(session: scoped_session, module_id: int
 
     return grade_restructure_interface_html
 
-def get_create_structure_interface_html(session: scoped_session, module_id: int):
-    pass
-
 def get_module_code(session: scoped_session, module_id: int):
     _, module_codes = _get_module_names_codes(session)
 
     module_code = module_codes[module_id]
     return module_code
 
-def _get_structure_html(module_structure):
+def _get_structure_html(module_structure: List[ModuleGradeStructure]):
     structure = []
-    counter = Counter()
     for ms in module_structure:
-        structure_name = ms.structure_type.capitalize()
-        counter.update([structure_name])
-        key = f'<b>{structure_name} {counter[structure_name]}</b>'
+        structure_name = ms.structure_name
+        key = f'<b>{structure_name}</b>'
         structure.append(f'{key} {ms.weightage:.0%}')
 
     return "<br>".join(structure)

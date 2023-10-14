@@ -12,15 +12,22 @@
   <form id="structure_creation_form">
     <div class="card" style="max-width: 50%; margin: auto;">
       <div id="structure_container">
-        <div class="row" id="structure_child" style="margin-bottom: 0;">
-          <div class="input-field col s9">
-            <input class="structure_name" name="structure_1" type="text">
-            <label for="first_name">Structure Name</label>
+        <div class="row" id="structure_child" style="margin-bottom: 0; display: flex; align-items: center;">
+          <div class="input-field col">
+            <select class="structure_type" name="type_1" style="font-size: 11pt; margin-top: -18pt;">
+              <option value="" disabled selected>Choose type</option>
+              <option value="assignment">Assignment</option>
+              <option value="exam">Exam</option>
+              <option value="project">Project</option>
+            </select>
           </div>
-          <div class="input-field col s1"></div>
+          <div class="input-field col s6">
+            <input class="structure_name" name="structure_1" type="text">
+            <label>Structure Name</label>
+          </div>
           <div class="input-field col s2">
             <input class="weightage" name="weight_1" type="number" min="5">
-            <label for="weightage">Weight (%)</label>
+            <label>Weight (%)</label>
           </div>
         </div>
       </div>
@@ -33,6 +40,11 @@
   </form>
 
   <div id="create_status_info"></div>
+
+  <!-- Arguments -->
+  <script>
+    var module_id = '{{ module_id }}';
+  </script>
 
   <script src="/static/js/addStructure.js"></script>
   <script src="/static/js/createStructure.js"></script>

@@ -3,15 +3,19 @@ const form = document.getElementById('structure_creation_form');
 function gradeRestructure(e) {
     e.preventDefault();
     let structure_inputs = Array.from(document.querySelectorAll('.structure_name'));
+    let structure_types = Array.from(document.querySelectorAll('.structure_type'));
     let weight_inputs = Array.from(document.querySelectorAll('.weightage'));
     let structures = structure_inputs.map(
+        element => element.value
+    );
+    let types = structure_types.map(
         element => element.value
     );
     let weights = weight_inputs.map(
         element => element.value
     );
 
-    fetch("/api/coordinator/add_structure", {
+    fetch("/api/coordinator/create_structure", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -19,7 +23,9 @@ function gradeRestructure(e) {
         credentials: "same-origin",
         body: JSON.stringify({
             structures: structures,
-            weights: weights
+            types: types,
+            weights: weights,
+            module_id: module_id
         }),
     })
     .then((res) => res.json())

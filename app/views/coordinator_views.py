@@ -9,12 +9,11 @@ from flask_login import login_required
 # App imports
 from ..permissions import roles_required, coordinator_scope
 from .. import db_manager as db
-from ..models import User
+from ..models import User, ModuleGradeStructure
 from ..utils.tables.coordinator import (
     get_modules_lecturers_table_html,
     get_grade_structure_table_html,
     get_grade_restructure_interface_html,
-    get_create_structure_interface_html,
     get_module_code
 )
 from ..services import coordinator_services as cs
@@ -28,16 +27,23 @@ current_user: User
 def coordinator():
     tables = _coordinator_tables()
     restructure_success = request.args.get('restructure_success')
+    structure_creation_success = request.args.get('structure_creation_success')
     return render_template(
         'coordinator/coordinator.html',
         tables=tables,
-        restructure_success=restructure_success
+        restructure_success=restructure_success,
+        structure_creation_success=structure_creation_success
     )
 
 @login_required
 @roles_required('coordinator')
 def coordinator_restructure_success():
     return redirect(url_for('coordinator', restructure_success=True))
+
+@login_required
+@roles_required('coordinator')
+def structure_creation_success():
+    return redirect(url_for('coordinator', structure_creation_success=True))
 
 @login_required
 @roles_required('coordinator')
@@ -76,15 +82,8 @@ def create_structure(module_id):
         return render_template('404.html')
 
     module_code = get_module_code(session=db.session, module_id=module_id)
-    create_structure_interface = get_create_structure_interface_html(
-        session=db.session, module_id=module_id
-    )
 
-    tables = {
-        'create_structure_interface': create_structure_interface
-    }
-
-    return render_template('coordinator/create_structure.html', tables=tables, module_code=module_code)
+    return render_template('coordinator/create_structure.html', module_id=module_id, module_code=module_code)
 
 @login_required
 @roles_required('coordinator')
@@ -128,6 +127,24 @@ def restructure_api():
 
     result = cs.change_weights(new_weights)
     redirect_to = url_for('coordinator') + '/restructure_success'
+
+    if result == 'success':
+        return {'message': 'Success', 'result': result, 'redirect_to': redirect_to}, 201
+    else:
+        return {'message': 'Unsuccessful', 'result': result}, 412
+
+@login_required
+@roles_required('coordinator')
+def create_structure_api():
+    structures = request.json.get('structures')
+    types = request.json.get('types')
+    weights = request.json.get('weights')
+    module_id = request.json.get('module_id')
+
+    weights = [round(int(w)/100, 2) for w in weights]
+    result = cs.create_structures(structures, types, weights, module_id)
+    redirect_to = url_for('coordinator') + '/structure_creation_success'
+
     if result == 'success':
         return {'message': 'Success', 'result': result, 'redirect_to': redirect_to}, 201
     else:

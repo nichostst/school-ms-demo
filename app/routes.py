@@ -77,6 +77,11 @@ def init_routes(app: Flask, db: scoped_session) -> None:
         view_func=coordinator_views.restructure_api,
         methods=['POST']
     )
+    app.add_url_rule(
+        "/api/coordinator/create_structure",
+        view_func=coordinator_views.create_structure_api,
+        methods=['POST']
+    )
 
     # Login required views
     app.add_url_rule('/home', view_func=static_views.home)
@@ -99,6 +104,7 @@ def init_routes(app: Flask, db: scoped_session) -> None:
         view_func=coordinator_views.create_structure,
     )
     app.add_url_rule('/coordinator/restructure_success', view_func=coordinator_views.coordinator_restructure_success)
+    app.add_url_rule('/coordinator/structure_creation_success', view_func=coordinator_views.structure_creation_success)
 
     app.register_error_handler(404, error_views.not_found_error)
     app.register_error_handler(500, error_views.internal_error)

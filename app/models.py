@@ -110,6 +110,7 @@ class ModuleGradeStructure(Base):
     structure_id = Column(Integer, primary_key=True)
     module_id = Column(Integer, ForeignKey("modules.module_id"), nullable=False)
     structure_type = Column(Text, nullable=False)
+    structure_name = Column(Text)
     weightage = Column(Numeric, nullable=False)
 
 class Term(Base):
