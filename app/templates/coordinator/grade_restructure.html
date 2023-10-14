@@ -8,7 +8,26 @@
 {% block content %}
   {% include "components/topnav.html" %}
 
-  <h2>
-    Grade Restructure
-  </h2>
+  <h3>{{ module_code }} Grade Structure</h3>
+  <form id="grade_restructure_form">
+    <div id="grade_restructure_container">
+      <div class="card" style="width: 40%">
+        Previous
+        {{ tables.grade_restructure_interface|safe }}
+      </div>
+      <div style="width: 10%">
+        <span class="material-icons" style="font-size: 40pt;">arrow_forward</span>
+      </div>
+      <div class="card" style="width: 40%">
+        Current
+        {{ tables.grade_restructure_input|safe }}
+      </div>
+    </div>
+    <input type="submit" class="input_submit" value="Restructure"
+    style="margin-top:12pt; font-size:12pt; display:block; margin-left:auto; margin-right:3%;">
+  </form>
+
+  <div id="create_status_info"></div>
+
+  <script src="/static/js/gradeRestructure.js"></script>
 {% endblock %}

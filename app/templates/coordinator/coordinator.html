@@ -12,6 +12,15 @@
     Coordinator
   </h2>
 
+  {% if restructure_success %}
+    <div class="notification" id="restructure-notif">
+      <a onclick="hideNotification()" style="cursor: pointer; margin-right: 4pt;">
+        <span class="material-icons" style="font-size: 10pt;">close</span>
+      </a>
+      Grade restructure successful!
+    </div>
+  {% endif %}
+
   <!-- Tabs -->
   <div class="row">
     <div class="col s12">
@@ -54,6 +63,12 @@
     </div>
   </div>
 
+  <script>
+    function hideNotification() {
+      const notif = document.getElementById('restructure-notif')
+      notif.style.display = 'none';
+    }
+  </script>
   <script>
     $(document).ready(function(){
       $('.tabs').tabs();

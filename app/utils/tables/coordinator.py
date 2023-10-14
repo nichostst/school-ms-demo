@@ -116,8 +116,10 @@ def get_grade_structure_table_html(session: scoped_session):
 
         if module_structure:
             structure_html = _get_structure_html(module_structure)
+            action = 'grade_restructure'
         else:
             structure_html = '<em style="font-style: italic; font-weight: lighter; font-size: 14px;">Empty</em>'
+            action = 'create_structure'
 
         structure_section = f'''
             <div>
@@ -125,7 +127,7 @@ def get_grade_structure_table_html(session: scoped_session):
                     {structure_html}
                 </div>
                 <div style="display: inline-block; vertical-align: middle; margin: 10pt">
-                    <a href="/coordinator/grade_restructure/{m}">
+                    <a href="/coordinator/{action}/{m}">
                         <span class="material-icons">edit</span>
                     </a>
                 </div>
@@ -152,13 +154,79 @@ def get_grade_structure_table_html(session: scoped_session):
     )
     return grade_structure_table_html
 
+def get_grade_restructure_interface_html(session: scoped_session, module_id: int, input_: bool = False):
+    grade_structure = session.query(ModuleGradeStructure).filter(
+        ModuleGradeStructure.module_id == module_id
+    ).all()
+
+    structure = []
+    counter = Counter()
+    for gs in grade_structure:
+        structure_name = gs.structure_type.capitalize()
+        counter.update([structure_name])
+        structure.append({
+            'id': gs.structure_id,
+            'structure_type': structure_name + str(counter[structure_name]),
+            'weightage': gs.weightage
+        })
+
+    if input_:
+        weight_section = '''
+            <td>
+                <div class="input-field inline" style="width: 40%; max-height: 24pt">
+                    <input type="number" class="structure_input" name="{}" placeholder="5" min="5" style="max-height: 24pt">
+                </div>
+                %
+            </td>
+        '''
+        structure_list = [
+            f'''<tr>
+                    <td style="width: 60%;">{s.get("structure_type")}</td>
+                    {weight_section.format(s.get("id"))}
+                </tr>
+            '''
+            for s in structure
+        ]
+    else:
+        weight_section = '<td>{weightage:.0%}</td>'
+        structure_list = [
+            f'''<tr>
+                    <td style="width: 60%;">{s.get("structure_type")}</td>
+                    {weight_section.format(weightage=s.get("weightage"))}
+                </tr>
+            '''
+            for s in structure
+        ]
+
+    structure_list_html = "\n".join(structure_list)
+    grade_restructure_interface_html = f'''
+        <table>
+            <tr>
+                <th>Structure</th>
+                <th>Weightage</th>
+            </tr>
+            {structure_list_html}
+        </table>
+    '''
+
+    return grade_restructure_interface_html
+
+def get_create_structure_interface_html(session: scoped_session, module_id: int):
+    pass
+
+def get_module_code(session: scoped_session, module_id: int):
+    _, module_codes = _get_module_names_codes(session)
+
+    module_code = module_codes[module_id]
+    return module_code
+
 def _get_structure_html(module_structure):
     structure = []
     counter = Counter()
     for ms in module_structure:
         structure_name = ms.structure_type.capitalize()
         counter.update([structure_name])
-        key = f'{structure_name} {counter[structure_name]}'
-        structure.append(f'{key} ({ms.weightage:.0%})')
+        key = f'<b>{structure_name} {counter[structure_name]}</b>'
+        structure.append(f'{key} {ms.weightage:.0%}')
 
     return "<br>".join(structure)

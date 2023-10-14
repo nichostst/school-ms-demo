@@ -21,15 +21,16 @@ function assignLecturers(e) {
     .then((data) => {
         console.log(data);
         form.reset();
+        info = document.getElementById('create_status_info');
+
         if (data.result === 'success') {
             message = 'Assignment successful!';
         } else if (data.result === 'partial') {
             message = 'Assignment partially successful!';
         } else if (data.result === 'failure') {
             message = 'Assignment failed!';
+            info.style = 'color: rgb(200, 0, 0); background-color: rgba(200, 90, 90, 0.3);'
         };
-        info = document.getElementById('create_status_info');
-        info.style = 'color: rgb(200, 0, 0); background-color: rgba(200, 90, 90, 0.3);'
         info.innerText = message;
         info.style.visibility = "visible"
     })

@@ -1,5 +1,5 @@
 # Standard Library imports
-from typing import List
+from typing import List, Dict
 
 # Core Flask imports
 
@@ -7,7 +7,7 @@ from typing import List
 
 # App imports
 from app import db_manager as db
-from ..models import modules_lecturers
+from ..models import modules_lecturers, ModuleGradeStructure
 
 
 def assign_lecturer(module_id: int, lecturer_id: int, term_ids: List[int]):
@@ -51,3 +51,27 @@ def assign_lecturer(module_id: int, lecturer_id: int, term_ids: List[int]):
         db.session.commit()
 
     return result
+
+def change_weights(new_weights: Dict[str, float]):
+    try:
+        assert sum(new_weights.values()) == 1
+    except AssertionError:
+        print('Weights do not sum to 100%, please check again')
+        return 'weight_failure'
+    
+    try:
+        assert min(new_weights.values()) >= 0.05
+    except AssertionError:
+        print('Minimum weight for a structure is 5%, please check again')
+        return 'min_weight_failure'
+
+    query = db.session.query(ModuleGradeStructure)
+
+    sorted_new_weights = dict(sorted(new_weights.items()))
+    for structure_id, structure_weight in sorted_new_weights.items():
+        s = query.filter(ModuleGradeStructure.structure_id == structure_id).first()
+        s.weightage = round(structure_weight, 2)
+    
+    db.session.commit()
+
+    return 'success'

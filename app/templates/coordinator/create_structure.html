@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {% include "styling/basic_table.html" %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/coordinator.css') }}">
+{% endblock %}
+
+{% block content %}
+  {% include "components/topnav.html" %}
+
+  <h3>{{ module_code }} Grade Structure</h3>
+  <form id="structure_creation_form">
+    <div class="card" style="max-width: 50%; margin: auto;">
+      <div id="structure_container">
+        <div class="row" id="structure_child" style="margin-bottom: 0;">
+          <div class="input-field col s9">
+            <input class="structure_name" name="structure_1" type="text">
+            <label for="first_name">Structure Name</label>
+          </div>
+          <div class="input-field col s1"></div>
+          <div class="input-field col s2">
+            <input class="weightage" name="weight_1" type="number" min="5">
+            <label for="weightage">Weight (%)</label>
+          </div>
+        </div>
+      </div>
+      <button id="add_button" type="button" style="padding: 0; margin: 12px;">
+        <span class="material-icons" style="font-size: 14pt;">add</span>
+      </button>
+      <input type="submit" class="input_submit" value="Build"
+      style="margin-top:12pt; font-size:12pt; display:block; margin-left:auto; margin-right:3%;">
+    </div>
+  </form>
+
+  <div id="create_status_info"></div>
+
+  <script src="/static/js/addStructure.js"></script>
+  <script src="/static/js/createStructure.js"></script>
+{% endblock %}

@@ -86,6 +86,18 @@ a.a_button:hover, input.input_submit:hover, #logout_button:hover {
     vertical-align: middle;
 }
 
+.notification {
+    display: flex;
+    background-color: rgb(215, 238, 255);
+    color: rgb(65, 173, 255);
+    padding: 5;
+    margin: auto;
+    font-size: 10pt;
+    margin-top: 10pt;
+    align-items: center;
+    margin-bottom: 10pt;
+}
+
 #logout_button, #profile_button {
     height: fit-content;
     margin: auto 10 auto auto;

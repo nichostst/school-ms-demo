@@ -17,7 +17,10 @@ def index():
     return render_template('index.html')
 
 def login():
-    return render_template('login.html')
+    if current_user.is_active:
+        return home()
+    else:
+        return render_template('login.html')
 
 # Common login-required views
 @login_required
