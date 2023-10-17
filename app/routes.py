@@ -36,7 +36,6 @@ def init_routes(app: Flask, db: scoped_session) -> None:
 
     # Public views
     app.add_url_rule('/', view_func=static_views.index)
-    app.add_url_rule('/login', view_func=static_views.login)
 
     # Public APIs
     app.add_url_rule(

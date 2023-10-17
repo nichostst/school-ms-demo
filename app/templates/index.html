@@ -3,5 +3,31 @@
 {% block content %}
   {% include "components/topnav.html" %}
 
-  <h1>Management System</h1>
+  <div id="login_modal" class="modal">
+    <form id="login_form">
+      <div class="modal-content">
+        <div id="modal_header">Login</div>
+        <div id="auth_input">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required/>
+  
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" minlength="8" autocomplete="current-password" required/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <input type="submit" id="login_submit" class="input_submit" value="Login">
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.modal');
+      var instances = M.Modal.init(elems);
+    });
+  </script>
+
+  <script src="/static/js/login.js"></script>
+
 {% endblock %}

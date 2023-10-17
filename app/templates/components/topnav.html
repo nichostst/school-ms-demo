@@ -2,13 +2,22 @@
 
 <div class="topnav">
   {% if current_user.user_id %}
-    <a href="/home">
-      <span class="material-icons">home</span>
-    </a>
+
+    <div style="display: flex;">
+      <img src="../../static/images/image.png" style="width: 20pt; margin: 5pt 5pt 5pt 10pt;">
+      onions
+    </div>
     <div>
+      <a href="/home">
+        <span class="material-icons">home</span>
+      </a>
       <a href="/logout" id="logout_button"><span class="material-icons">logout</span></a>
     </div>
   {% else %}
-    <a href="/login" class="a_button" style="margin: 8 8 8 auto;">Login</a>
+    <div style="display: flex;">
+      <img src="../../static/images/image.png" style="width: 20pt; margin: 5pt 5pt 5pt 10pt;">
+      onions
+    </div>
+    <a href="#login_modal" id="login_button" class="btn modal-trigger"><span class="material-icons">login</span></a>
   {% endif %}
 </div>

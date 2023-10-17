@@ -29,7 +29,7 @@ select {
     border-radius: 5px;
 }
 
-a.a_button, input.input_submit, #logout_button {
+a.a_button, input.input_submit, #logout_button, #login_button {
     background-color: rgb(40, 40, 40);
     color: rgb(230, 230, 230);
     padding: 4px 8px;
@@ -38,7 +38,7 @@ a.a_button, input.input_submit, #logout_button {
     font-size: 10pt;
 }
 
-a.a_button:hover, input.input_submit:hover, #logout_button:hover {
+a.a_button:hover, input.input_submit:hover, #logout_button:hover, #login_button:hover {
     background-color: rgb(100, 100, 100);
     color: rgb(230, 230, 230);
 }
@@ -70,7 +70,22 @@ a.a_button:hover, input.input_submit:hover, #logout_button:hover {
     margin-bottom: 10pt;
 }
 
-#logout_button, #profile_button {
+#logout_button, #login_button {
     height: fit-content;
-    margin: auto 10 auto auto;
+    margin: 5pt;
+}
+
+#login_modal {
+    width: 25%;
+    border-radius: 5pt;
+    padding: 10pt;
+}
+
+#login_submit {
+    font-size: 12pt;
+    margin-right: 20pt;
+}
+
+#modal_header {
+    margin-bottom: 10pt;
 }
