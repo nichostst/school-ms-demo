@@ -6,11 +6,7 @@
       <span class="material-icons">home</span>
     </a>
     <div>
-      <a href="/profile" id="profile_button">
-        <span class="material-icons">account_circle</span>
-        {{ current_user.username }}
-      </a>
-      <a href="/logout" id="logout_button">Logout</a>
+      <a href="/logout" id="logout_button"><span class="material-icons">logout</span></a>
     </div>
   {% else %}
     <a href="/login" class="a_button" style="margin: 8 8 8 auto;">Login</a>

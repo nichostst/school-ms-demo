@@ -8,41 +8,51 @@
 {% block content %}
   {% include "components/topnav.html" %}
 
-  <h2>
-    Coordinator
-  </h2>
-
-  {% if restructure_success %}
-    <div class="notification" id="restructure-notif">
-      <a onclick="hideNotification()" style="cursor: pointer; margin-right: 4pt;">
-        <span class="material-icons" style="font-size: 10pt;">close</span>
-      </a>
-      Grade restructure successful!
+  <div class="content">
+    <div class="row content_header">
+      <div class="col user_icon">
+        <a href="/profile"><span class="material-icons">account_circle</span></a>
+      </div>
+      <div class="col user_block">
+        <a class="username" href="/profile">{{ current_user.username }}</a>
+        <div class="user_role">coordinator</div>
+      </div>
     </div>
-  {% endif %}
 
-  {% if structure_creation_success %}
-    <div class="notification" id="restructure-notif">
-      <a onclick="hideNotification()" style="cursor: pointer; margin-right: 4pt;">
-        <span class="material-icons" style="font-size: 10pt;">close</span>
-      </a>
-      Grade structure creation successful!
-    </div>
-  {% endif %}
+    {% if restructure_success %}
+      <div class="notification" id="restructure-notif">
+        <a onclick="hideNotification()" style="cursor: pointer; margin-right: 4pt;">
+          <span class="material-icons" style="font-size: 10pt;">close</span>
+        </a>
+        Grade restructure successful!
+      </div>
+    {% endif %}
 
-  <!-- Tabs -->
-  <div class="row">
-    <div class="col s12">
-      <ul class="tabs">
-        <li class="tab col s3"><a class="active" href="#modules_lecturers_view_tab">Lecturer Assignment</a></li>
-        <li class="tab col s3"><a href="#grade_structure_view_tab">Grade Structure</a></li>
-      </ul>
+    {% if structure_creation_success %}
+      <div class="notification" id="restructure-notif">
+        <a onclick="hideNotification()" style="cursor: pointer; margin-right: 4pt;">
+          <span class="material-icons" style="font-size: 10pt;">close</span>
+        </a>
+        Grade structure creation successful!
+      </div>
+    {% endif %}
+
+    <!-- Tabs -->
+    <div class="row content_tab">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a class="active" href="#modules_lecturers_view_tab">Lecturer Assignment</a></li>
+          <li class="tab col s3"><a href="#grade_structure_view_tab">Grade Structure</a></li>
+        </ul>
+      </div>
     </div>
 
     <!-- Modules/Lecturers view -->
-    <div id="modules_lecturers_view_tab" class="col s12">
-      <div id="modules_lecturers_view" class="card">
-        <h3 class="card_title">Lecturer Assignment</h3>
+    <div class="row content_tab" id="modules_lecturers_view_tab">
+      <div class="card" id="modules_lecturers_view">
+        <div class="card_title">
+          Lecturer Assignment
+        </div>
 
         {{ tables.modules_lecturers|safe }}
 
@@ -57,9 +67,11 @@
     </div>
 
     <!-- Grade Structure view -->
-    <div id="grade_structure_view_tab" class="col s12">
-      <div id="grade_structure_view" class="card">
-        <h3 class="card_title">Grade Structure</h3>
+    <div class="row content_tab" id="grade_structure_view_tab">
+      <div class="card" id="grade_structure_view">
+        <div class="card_title">
+          Grade Structure
+        </div>
 
         {{ tables.grade_structure|safe }}
 

@@ -8,23 +8,51 @@
 {% block content %}
   {% include "components/topnav.html" %}
 
-  <h2>
-    Admin
-  </h2>
+  <div class="content">
+    <div class="row content_header">
+      <div class="col user_icon">
+        <a href="/profile"><span class="material-icons">account_circle</span></a>
+      </div>
+      <div class="col user_block">
+        <a class="username" href="/profile">{{ current_user.username }}</a>
+        <div class="user_role">admin</div>
+      </div>
+    </div>
 
-  <!-- Tabs -->
-  <div class="row">
-    <div class="col s12">
-      <ul class="tabs">
-        <li class="tab col s3"><a class="active" href="#user_view_tab">User View</a></li>
-        <li class="tab col s3"><a href="#module_view_tab">Module View</a></li>
-      </ul>
+    <!-- Tabs -->
+    <div class="row content_tab">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a class="active" href="#user_view_tab">User View</a></li>
+          <li class="tab col s3"><a href="#module_view_tab">Module View</a></li>
+        </ul>
+      </div>
     </div>
 
     <!-- User view -->
-    <div id="user_view_tab" class="col s12">
-      <div id="user_view" class="card">
-        <h3 class="card_title">Users</h3>
+    <div class="row content_tab" id="user_view_tab">
+      <div class="stat_row">
+        <div class="card stat col">
+          <div class="stat_key" style="color:indianred">Users</div>
+          <div class="stat_value">{{ role_counts['all'] }}</div>
+        </div>
+        <div class="card stat col">
+          <div class="stat_key" style="color:darkolivegreen">Coordinators</div>
+          <div class="stat_value">{{ role_counts['coordinator'] }}</div>
+        </div>
+        <div class="card stat col">
+          <div class="stat_key" style="color:darkgoldenrod">Lecturers</div>
+          <div class="stat_value">{{ role_counts['lecturer'] }}</div>
+        </div>
+        <div class="card stat col">
+          <div class="stat_key" style="color:cornflowerblue">Students</div>
+          <div class="stat_value">{{ role_counts['student'] }}</div>
+        </div>
+      </div>
+      <div class="card" id="user_view">
+        <div class="card_title">
+          Users
+        </div>
 
         {{ tables.user|safe }}
 
@@ -39,9 +67,11 @@
     </div>
 
     <!-- Module view -->
-    <div id="module_view_tab" class="col s12">
-      <div id="module_view" class="card">
-        <h3 class="card_title">Modules</h3>
+    <div class="row content_tab" id="module_view_tab">
+      <div class="card" id="module_view">
+        <div class="card_title">
+          Modules
+        </div>
 
         {{ tables.module|safe }}
 

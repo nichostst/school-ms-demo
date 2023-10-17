@@ -24,3 +24,8 @@
     outline: auto;
     background-color: transparent;
 }
+
+.user_icon > a > span {
+    color: darkolivegreen;
+    font-size: 42pt;
+}

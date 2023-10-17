@@ -13,3 +13,8 @@
     text-align: center;
     margin-top: 10pt;
 }
+
+.user_icon > a > span {
+    color: indianred;
+    font-size: 42pt;
+}

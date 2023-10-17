@@ -93,7 +93,7 @@ def get_modules_lecturers_table_html(session: scoped_session, assign_terms=False
 
     cols = ['module_code', 'module_name', 'lecturer', 'term']
     col_labels = ['Module Code', 'Module Name', 'Lecturer', 'Term']
-    styles = ['compact', 'stripe', 'hover']
+    styles = ['stripe', 'hover']
 
     tab = Tabulator()
     modules_lecturers_table_html = tab.tabulate(
@@ -142,7 +142,7 @@ def get_grade_structure_table_html(session: scoped_session):
 
     cols = ['module_code', 'module_name', 'structure']
     col_labels = ['Module Code', 'Module Name', 'Structure']
-    styles = ['compact', 'stripe', 'hover']
+    styles = ['stripe', 'hover']
 
     tab = Tabulator()
     grade_structure_table_html = tab.tabulate(

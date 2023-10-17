@@ -1,5 +1,6 @@
 # Standard Library imports
 from typing import List
+from collections import Counter
 
 # Core Flask imports
 
@@ -10,6 +11,14 @@ from sqlalchemy.orm import scoped_session
 from app.models import User, Module, modules_coordinators, modules_lecturers
 from app.utils.html.table import Tabulator
 
+
+def get_role_counts(session) -> Counter:
+    users: List[User] = session.query(User).all()
+    counter = Counter()
+    counter.update([u.role.name for u in users])
+    counter = dict(counter)
+    counter['all'] = sum(counter.values())
+    return counter
 
 def get_user_table_html(session):
     users: List[User] = session.query(User).all()
@@ -25,7 +34,7 @@ def get_user_table_html(session):
     ]
     cols = ['user_id', 'username', 'email', 'role', 'created_at']
     col_labels = ['ID', 'Username', 'Email', 'Role', 'Created At']
-    styles = ['compact', 'stripe', 'hover']
+    styles = ['stripe', 'hover']
 
     tab = Tabulator()
     user_table_html = tab.tabulate(data=data, cols=cols, col_labels=col_labels, alias='user', styles=styles)
@@ -57,12 +66,12 @@ def get_module_table_html(session):
             'module_name': m.name,
             'credits': m.credits,
             'coordinators': ', '.join(module_coordinators[m.module_id]),
-            'lecturers': ', '.join(module_lecturers[m.module_id]),
+            'lecturers': ', '.join(sorted(set(module_lecturers[m.module_id]))),
         } for m in modules
     ]
     cols = ['module_id', 'module_code', 'module_name', 'credits', 'coordinators', 'lecturers']
     col_labels = ['ID', 'Code', 'Name', 'Credits', 'Coordinators', 'Lecturers']
-    styles = ['compact', 'stripe', 'hover']
+    styles = ['stripe', 'hover']
 
     tab = Tabulator()
     module_table_html = tab.tabulate(data=data, cols=cols, col_labels=col_labels, alias='module', styles=styles)
